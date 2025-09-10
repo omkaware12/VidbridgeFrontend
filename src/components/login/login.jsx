@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MailIcon, LockIcon } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const [error, setError] = useState(null);
@@ -24,78 +25,89 @@ export default function LoginForm() {
 
       if (!res.ok) throw new Error(data.message || "Invalid email or password");
 
-      // Save email for OTP page
       localStorage.setItem("pendingEmail", data.email);
 
-      alert("OTP sent to your email!");
-      navigate("/verifyotp"); // go to OTP page
+      toast.success("OTP sent to your email!");
+      navigate("/verifyotp");
     } catch (err) {
+      toast.error(err.message);
       setError(err.message);
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-        <p className="text-gray-600">Login to your VidBridge account</p>
-      </div>
-      <form onSubmit={handleLogin} className="space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-black font-roboto">
+      <form
+        onSubmit={handleLogin}
+        className="w-full max-w-md text-white px-6"
+      >
+        {/* Company Branding */}
+        <h1 className="text-center text-3xl font-bold mb-2 text-white">
+          VidBridge
+        </h1>
+        <p className="text-center text-gray-400 mb-8">Sign in to continue</p>
+
         {/* Email */}
-        <div className="space-y-2">
+        <div className="mb-4">
           <label
             htmlFor="email"
-            className="flex items-center gap-2 text-sm font-medium text-gray-700"
+            className="flex items-center gap-2 text-sm text-white"
           >
-            <MailIcon className="h-4 w-4 text-gray-500" /> Email
+            <MailIcon className="h-4 w-4 text-white" /> Email
           </label>
           <input
             id="email"
             name="email"
             type="email"
-            placeholder="m@example.com"
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+            placeholder="you@vidbridge.com"
+            className="w-full bg-black text-white border border-white rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:border-white"
             required
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         {/* Password */}
-        <div className="space-y-2">
+        <div className="mb-4">
           <label
             htmlFor="password"
-            className="flex items-center gap-2 text-sm font-medium text-gray-700"
+            className="flex items-center gap-2 text-sm text-white"
           >
-            <LockIcon className="h-4 w-4 text-gray-500" /> Password
+            <LockIcon className="h-4 w-4 text-white" /> Password
           </label>
           <input
             id="password"
             name="password"
             type="password"
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+            placeholder="Enter your password"
+            className="w-full bg-black text-white border border-white rounded-lg px-4 py-2 placeholder-gray-400 focus:outline-none focus:border-white"
             required
           />
         </div>
 
-        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+        {/* Error */}
+        {error && (
+          <p className="text-sm text-red-400 text-center mb-3">{error}</p>
+        )}
 
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-semibold"
+          className="w-full py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition"
         >
-          Login
+          Sign In →
         </button>
-      </form>
 
-      <div className="text-center text-sm text-gray-600 mt-6">
-        Don’t have an account?{" "}
-        <Link
-          to="/signup"
-          className="underline text-blue-600 hover:text-blue-700"
-        >
-          Sign Up
-        </Link>
-      </div>
+        {/* Footer */}
+        <div className="text-center text-sm text-gray-400 mt-6">
+          Don’t have an account?{" "}
+          <Link
+            to="/signup"
+            className="underline text-white hover:text-gray-300"
+          >
+            Sign Up
+          </Link>
+        </div>
+      </form>
     </div>
   );
 }

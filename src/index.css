@@ -1,9 +1,21 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-
-/* ✅ New Tailwind v4 syntax */
+ @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
-/* Apply the Poppins font globally */
-body {
-  font-family: 'Poppins', sans-serif;
+ @layer base {
+  body {
+    font-family: 'Poppins', sans-serif; /* default font */
+  }
+ .font-roboto {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .font-playfair {
+    font-family: 'Playfair Display', serif;
+  }
+
+
 }
